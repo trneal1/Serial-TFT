@@ -2,10 +2,10 @@
 #include "SPI.h"
 #include "Adafruit_GFX.h"
 #include "Adafruit_ILI9341.h"
-#include "wire.h"
+#include "Wire.h"
 
-#include <ESP8266Wifi.h>
-#include <WiFiUDP.h>
+#include <ESP8266WiFi.h>
+#include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 
 #include <string.h>
@@ -13,7 +13,7 @@
 const char *ssid = "TRNNET-2G";
 const char *password = "ripcord1";
 
-const char *hostname="ESP_TFT2";
+const char *hostname="ESP_TFT1";
 
 WiFiUDP Udp;
 WiFiServer Tcp(1001);
@@ -68,9 +68,9 @@ void tft_bl(){
   } 
 
   if(!strcasecmp(ptr,"on"))
-     digitalWrite(D3,HIGH);
+     digitalWrite(D0,HIGH);
   else
-    digitalWrite(D3,LOW);
+    digitalWrite(D0,LOW);
 
 }
 
@@ -505,6 +505,9 @@ void setup()
   tft.setRotation(3);
   tft.setCursor(0, 0);
 
+  pinMode(D0,OUTPUT);
+  digitalWrite(D0,HIGH);
+
   tft.setTextColor(ILI9341_YELLOW);
   tft.setTextSize(2);
   tft.println(WiFi.localIP());
@@ -512,9 +515,6 @@ void setup()
   delay(5000);
   tft.fillScreen(ILI9341_BLACK);
   tft.setTextColor(ILI9341_WHITE);
-
-  pinMode(D3,OUTPUT);
-  digitalWrite(D3,HIGH);
 
   pinMode(D2, INPUT);
   attachInterrupt(digitalPinToInterrupt(D2), press,RISING);
